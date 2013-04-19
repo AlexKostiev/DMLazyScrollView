@@ -139,7 +139,7 @@ enum {
         // This happends when our scrollview have only two and we should have the same prev/next page at left/right
         // A single UIView instance can't be in two different location at the same moment so we need to place it
         // loooking at proposed direction
-        [self loadControllerAtIndex:prevPage andPlaceAtIndex:(proposedScroll == DMLazyScrollViewScrollDirectionBackward ? -1 : 1)];
+        [self loadViewAtIndex:prevPage andPlaceAtIndex:(proposedScroll == DMLazyScrollViewScrollDirectionBackward ? -1 : 1)];
     }
 
     if ( (proposedScroll == DMLazyScrollViewScrollDirectionBackward && !canScrollBackward) ||
@@ -172,9 +172,9 @@ enum {
     NSInteger prevPage = [self pageIndexByAdding:-1 from:currentPage];
     NSInteger nextPage = [self pageIndexByAdding:+1 from:currentPage];
         
-    [self loadControllerAtIndex:prevPage andPlaceAtIndex:-1];   // load previous page
-    [self loadControllerAtIndex:index andPlaceAtIndex:0];       // load current page
-    [self loadControllerAtIndex:nextPage andPlaceAtIndex:1];   // load next page
+    [self loadViewAtIndex:prevPage andPlaceAtIndex:-1];   // load previous page
+    [self loadViewAtIndex:index andPlaceAtIndex:0];       // load current page
+    [self loadViewAtIndex:nextPage andPlaceAtIndex:1];   // load next page
     
     CGFloat size =(_direction==DMLazyScrollViewDirectionHorizontal) ? self.frame.size.width : self.frame.size.height;
     
@@ -245,13 +245,13 @@ enum {
         
         if (transition == DMLazyScrollViewTransitionForward) {
             if (!isOnePageMove)
-                [self loadControllerAtIndex:newIndex andPlaceAtIndex:2];
+                [self loadViewAtIndex:newIndex andPlaceAtIndex:2];
             
             
             finalOffset = [self createPoint:(size*(isOnePageMove ? 3 : 4))];
         } else {
             if (!isOnePageMove)
-                [self loadControllerAtIndex:newIndex andPlaceAtIndex:-2];
+                [self loadViewAtIndex:newIndex andPlaceAtIndex:-2];
             
             finalOffset = [self createPoint:(size*(isOnePageMove ? 1 : 0))];
         }
@@ -276,7 +276,7 @@ enum {
     [self setCurrentViewController:newCurrentPage];
 }
 
-- (UIView *) loadControllerAtIndex:(NSInteger) index andPlaceAtIndex:(NSInteger) destIndex {
+- (UIView *) loadViewAtIndex:(NSInteger) index andPlaceAtIndex:(NSInteger) destIndex {
     UIView *view = dataSource(index);
     view.tag = 0;
     
