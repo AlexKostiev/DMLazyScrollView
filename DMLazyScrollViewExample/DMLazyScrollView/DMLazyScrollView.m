@@ -47,6 +47,7 @@ enum {
     if (self) {
         _direction = direction;
         [self initializeControl];
+        circularScrollEnabled = circularScrolling;
     }
     return self;
 }
@@ -275,24 +276,24 @@ enum {
     [self setCurrentViewController:newCurrentPage];
 }
 
-- (UIViewController *) loadControllerAtIndex:(NSInteger) index andPlaceAtIndex:(NSInteger) destIndex {
-    UIViewController *viewController = dataSource(index);
-    viewController.view.tag = 0;
+- (UIView *) loadControllerAtIndex:(NSInteger) index andPlaceAtIndex:(NSInteger) destIndex {
+    UIView *view = dataSource(index);
+    view.tag = 0;
     
     if (_direction == DMLazyScrollViewDirectionHorizontal) {
-        viewController.view.frame = CGRectMake(self.frame.size.width*(destIndex+2),
+        view.frame = CGRectMake(self.frame.size.width*(destIndex+2),
                                                0,
                                                self.frame.size.width,
                                                self.frame.size.height);
     } else {
-        viewController.view.frame = CGRectMake(0,
+        view.frame = CGRectMake(0,
                                                self.frame.size.height*(destIndex+2),
                                                self.frame.size.width,
                                                self.frame.size.height);
         
     }
-    [self addSubview:viewController.view];
-    return viewController;
+    [self addSubview:view];
+    return view;
 }
 
 

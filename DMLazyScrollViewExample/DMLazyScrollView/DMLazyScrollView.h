@@ -32,7 +32,7 @@ enum {
 - (void)lazyScrollView:(DMLazyScrollView *)pagingView currentPageChanged:(NSInteger)currentPageIndex;
 @end
 
-typedef UIViewController*(^DMLazyScrollViewDataSource)(NSUInteger index);
+typedef UIView*(^DMLazyScrollViewDataSource)(NSUInteger index);
 
 @interface DMLazyScrollView : UIScrollView
 

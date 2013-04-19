@@ -24,7 +24,7 @@
     [super viewDidLoad];
     
     // PREPARE PAGES
-    NSUInteger numberOfPages = 10;
+    NSUInteger numberOfPages = 2;
     viewControllerArray = [[NSMutableArray alloc] initWithCapacity:numberOfPages];
     for (NSUInteger k = 0; k < numberOfPages; ++k) {
         [viewControllerArray addObject:[NSNull null]];
@@ -32,7 +32,8 @@
     
     // PREPARE LAZY VIEW
     CGRect rect = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height-50);
-    lazyScrollView = [[DMLazyScrollView alloc] initWithFrame:rect];
+//    lazyScrollView = [[DMLazyScrollView alloc] initWithFrame:rect];
+    lazyScrollView = [[DMLazyScrollView alloc] initWithFrameAndDirection:rect direction:DMLazyScrollViewDirectionHorizontal circularScroll:YES];
     
     __weak __typeof(&*self)weakSelf = self;
     lazyScrollView.dataSource = ^(NSUInteger index) {
@@ -73,7 +74,7 @@
     
 }
 
-- (UIViewController *) controllerAtIndex:(NSInteger) index {
+- (UIView *) controllerAtIndex:(NSInteger) index {
     if (index > viewControllerArray.count || index < 0) return nil;
     id res = [viewControllerArray objectAtIndex:index];
     if (res == [NSNull null]) {
@@ -91,9 +92,9 @@
         [contr.view addSubview:label];
         
         [viewControllerArray replaceObjectAtIndex:index withObject:contr];
-        return contr;
+        return contr.view;
     }
-    return res;
+    return ((UIViewController*)res).view;
 }
 
 /*
